@@ -3,23 +3,34 @@ use crate::Stack;
 // TODO Complete implementation
 impl Stack for Vec<i32> {
     fn init() -> Self {
-        todo!()
+       Vec::new()
     }
 
     fn push_val(&mut self, i: i32) {
-        todo!()
+        self.push(i);
     }
 
     fn top_val(&self) -> Option<&i32> {
-        todo!()
+        let size = self.len();
+        if size > 0 {
+           Some(&self[size - 1])
+        }   
+        else {
+            None
+        }
     }
 
     fn pop_val(&mut self) -> Option<i32> {
-        todo!()
+         self.pop()
     }
 
     fn is_empty(&self) -> bool {
-        todo!()
+        if self.len() > 0 {
+            false
+        }
+        else {
+            true
+        }
     }
 }
 
