@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use crate::Stack;
 
 // TODO Complete implementation
@@ -53,7 +51,7 @@ impl Stack for ListStack {
 
     fn push_val(&mut self, i: i32) {
         match self {
-            Val(value, other) => *self = Val(i, other.take()),
+            Val(value, other) => *self = Val(i, Some(Box::new(Val(*value, other.take())))),
             Nil => *self = Val(i, None),
         }
     }
