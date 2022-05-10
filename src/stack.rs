@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use crate::Stack;
 
 // TODO Complete implementation
@@ -51,13 +53,16 @@ impl Stack for ListStack {
 
     fn push_val(&mut self, i: i32) {
         match self {
-            Val(value, other) => *self = todo!(),
-            Nil => *self = todo!(),
-        };
+            Val(value, other) => *self = Val(i, other.take()),
+            Nil => *self = Val(i, None),
+        }
     }
 
     fn top_val(&self) -> Option<&i32> {
-        todo!()
+        match self {
+            Val(value,other) => Some(value),
+            Nil => None
+        }
     }
 
     fn pop_val(&mut self) -> Option<i32> {
@@ -66,16 +71,19 @@ impl Stack for ListStack {
                 let popped_value = *value;
                 match other.take() {
                     None => *self = Nil,
-                    Some(other) => todo!(),
+                    Some(other) => *self = *other,
                 };
-                todo!()
+                Some(popped_value)
             }
             Nil => None,
         }
     }
 
     fn is_empty(&self) -> bool {
-        todo!()
+        match self {
+            Val(value, other) => false,
+            Nil => true,
+        }
     }
 }
 
