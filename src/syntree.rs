@@ -1,4 +1,4 @@
-use std::fmt::{Display, Formatter};
+use std::{fmt::{Display, Formatter}};
 
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ID(usize);
@@ -12,17 +12,25 @@ pub struct Syntree<T> {
 
 // Complete the implementation
 // Hint: Start with seek_node_mut
-impl<'a, T> Syntree<T> {
+impl<'a, T> Syntree<T> { 
     pub fn new(value: T, id: ID) -> Syntree<T> {
-        todo!()
+        Syntree{value: value, id: id, children: Vec::new()}
     }
 
     pub fn push_node(&mut self, parent_id: ID, new_node: Syntree<T>) -> Result<(), String> {
-        todo!()
+        let node = self.seek_node_mut(&parent_id);
+        match node {
+            None => Err(String::from("Could not find parent id.")),
+            Some(node) => Ok(node.children.push(new_node))
+        }
     }
 
     pub fn prepend_node(&mut self, parent_id: ID, new_node: Syntree<T>) -> Result<(), String> {
-        todo!()
+        let node = self.seek_node_mut(&parent_id);
+        match node {
+            None => Err(String::from("Could not find parent id.")),
+            Some(node) => Ok(node.children.insert(0,new_node)) 
+        }
     }
 
     pub fn insert_node(
@@ -31,7 +39,11 @@ impl<'a, T> Syntree<T> {
         index: usize,
         new_node: Syntree<T>,
     ) -> Result<(), String> {
-        todo!()
+        let node = self.seek_node_mut(&parent_id);
+        match node {
+            None => Err(String::from("Could not find parent id.")),
+            Some(node) => Ok(node.children.insert(index,new_node)) 
+        }
     }
 
     // Anmerkung: `'a` Is ein Lebenszeit angabe für die Referenzen
@@ -50,7 +62,16 @@ impl<'a, T> Syntree<T> {
     }
 
     pub fn seek_node_mut(&'a mut self, id: &ID) -> Option<&'a mut Syntree<T>> {
-        todo!()
+        if self.id == *id {
+            Some(self)
+        } else {
+            for child in &mut self.children {
+                if let Some(result) = child.seek_node_mut(id) {
+                    return Some(result);
+                }
+            }
+            None
+        }
     }
 }
 

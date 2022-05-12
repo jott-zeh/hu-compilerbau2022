@@ -58,7 +58,7 @@ impl Stack for ListStack {
 
     fn top_val(&self) -> Option<&i32> {
         match self {
-            Val(value,other) => Some(value),
+            Val(value,_other) => Some(value),
             Nil => None
         }
     }
@@ -79,7 +79,7 @@ impl Stack for ListStack {
 
     fn is_empty(&self) -> bool {
         match self {
-            Val(value, other) => false,
+            Val(_value, _other) => false,
             Nil => true,
         }
     }
